@@ -5,12 +5,18 @@ import uvicorn
 from columns import all_columns
 from schema import MushroomsSchema
 from fastapi import FastAPI
+from pathlib import Path
+
+
+
+BASE_DIR = Path(__file__).parent
+
+model = joblib.load(BASE_DIR / 'model_rf.pkl')
+scaler = joblib.load(BASE_DIR / 'scaler.pkl')
 
 
 app = FastAPI()
 
-model = joblib.load('model_rf.pkl')
-scaler = joblib.load('scaler.pkl')
 
 @app.post('/predict')
 async def predict(data: MushroomsSchema):
